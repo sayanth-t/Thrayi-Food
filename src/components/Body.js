@@ -4,17 +4,15 @@ import RestaurentCard from './RestCard';
 import Shimmer from './Shimmer';
 
 import { TopRestList } from '../utils/mockData';
-
+import { Link } from 'react-router-dom';
 
 // body component
 const Body = () => {
-  
   const [restList, setRestList] = useState([]);
 
-  const [ filterdRestList , setfilterdRestList ] = useState([]) ;
+  const [filterdRestList, setfilterdRestList] = useState([]);
 
   const [searchValue, setSearchValue] = useState('');
-
 
   useEffect(() => {
     fetchData();
@@ -26,7 +24,7 @@ const Body = () => {
     );
 
     const jsonData = await data.json();
-   
+
     setRestList(
       jsonData.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
         ?.restaurants
@@ -34,7 +32,7 @@ const Body = () => {
     setfilterdRestList(
       jsonData.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
         ?.restaurants
-    )
+    );
   };
 
   // showing restList is loading => CONDETIONAL RENDERING
@@ -45,7 +43,6 @@ const Body = () => {
   return (
     <div className="body">
       <div className="search-container">
-
         <input
           type="text"
           placeholder="Search Restuarents"
@@ -59,15 +56,16 @@ const Body = () => {
         <button
           className="search-btn"
           onClick={() => {
-            
-            const searchRest = restList.filter( (rest)=> rest.info.name.toLowerCase().includes(searchValue.toLowerCase().trim()) ) ;
-            setfilterdRestList(searchRest) ;
-            
+            const searchRest = restList.filter((rest) =>
+              rest.info.name
+                .toLowerCase()
+                .includes(searchValue.toLowerCase().trim())
+            );
+            setfilterdRestList(searchRest);
           }}
         >
           Search
         </button>
-
       </div>
 
       <h2>Top restaurant chains in Kannur</h2>
@@ -95,7 +93,9 @@ const Body = () => {
       </div>
       <div className="food-container">
         {filterdRestList.map((rest) => (
-          <RestaurentCard key={rest.info.id} restData={rest} />
+          <Link to={`/restaurent-menu/${rest.info.id}`} key={rest.info.id} className='rest-menu-link' >
+            <RestaurentCard key={rest.info.id} restData={rest} />
+          </Link>
         ))}
       </div>
     </div>

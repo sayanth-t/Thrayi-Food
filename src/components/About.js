@@ -1,7 +1,13 @@
+import User from "./User";
+
+import UserClass from "./UserClass";
+
 const About = () => {
     return (
       <div className="about-container">
-        <h2>About</h2>
+        <h2>About</h2> 
+        <User/>
+        <UserClass name={"Sayanth"}/>
         <p>
           Contrary to popular belief, Lorem Ipsum is not simply random text. It
           has roots in a piece of classical Latin literature from 45 BC, making it

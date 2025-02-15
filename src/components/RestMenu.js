@@ -1,33 +1,44 @@
 import { useEffect, useState } from 'react';
 import Shimmer from './Shimmer';
+import { useParams } from 'react-router-dom';
 
 import RecommentCard from './Recommend';
+import { MENU_API } from '../utils/constants';
 
 const RestMenu = () => {
-
   const [menuData, setMenuData] = useState(null);
+  
+
+  const {restId} = useParams() ;
 
   const findMenu = async () => {
     const data = await fetch(
-      'https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=11.8744775&lng=75.37036619999999&restaurantId=250361&catalog_qa=undefined&submitAction=ENTER'
-    );
+      MENU_API + restId
+    )
     const menuData = await data.json();
+
     setMenuData(menuData);
   };
+
+  
 
   useEffect(() => {
     findMenu();
   }, []);
 
-  if (!menuData) {
+  if ( menuData === null ) {
     return <Shimmer />;
-  }
+  } 
 
   const { name, avgRating, costForTwoMessage, city } =
     menuData?.data?.cards[2]?.card?.card.info;
 
+  console.log('recommended : ', menuData?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card
+    ?.card?.itemCards) ;
+
   const recommended = Object.values(
     menuData?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card
+      ?.card?.itemCards ||  menuData?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card
       ?.card?.itemCards
   );
 
@@ -35,19 +46,31 @@ const RestMenu = () => {
     <div className="restMenu-container">
       <div className="rest-menu">
         <div className="rest-name-container">
-          <h2>{name}</h2>
-          <h4>{avgRating}</h4>
-          <h4>{costForTwoMessage}</h4>
-          <h4>{city}</h4>
+          <div>
+            <h2>{name}</h2>
+          </div>
         </div>
 
-        <div className='reommended'>
+        <div className="rest-info-container">
+          <div className="rest-info-inner-container">
+            <div>
+              <h4>
+                {avgRating} . {costForTwoMessage}{' '}
+              </h4>
+            </div>
+            <div>
+              <h4>{city}</h4>
+            </div>
+            <div></div>
+          </div>
+        </div>
+
+        <div className="recommended">
           <h3>Recommended</h3>
           {recommended.map((menu) => (
             <RecommentCard key={menu?.card?.info?.id} menuDetails={menu} />
           ))}
         </div>
-
       </div>
     </div>
   );
