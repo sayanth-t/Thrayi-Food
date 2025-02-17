@@ -1,4 +1,4 @@
-const User = () => {
+const User = () => { 
     return <div className="user-card">
         <h3>Name : Sayanth t</h3>
         <h5>Place : Kanur , Payyannur</h5>

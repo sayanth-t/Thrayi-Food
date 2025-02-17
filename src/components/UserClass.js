@@ -3,52 +3,30 @@ import React from 'react';
 class UserClass extends React.Component {
 
     constructor (props){
-        super(props) 
+      super(props) ;
+    } 
 
-        this.state = {
-          count1 : 0 ,
-          count2 : 10
-        }
-
-        console.log('hey from contructure...') ;
+    state = {
+      name  : ""
     }
 
+    // for fetching data 
+    async componentDidMount(){
+      const data = await fetch('https://api.github.com/users/sayanth-t') ;
+      const jsonData = await data.json() ;
 
-    componentDidMount(){
-      console.log('component did mount !!') ;
+      this.setState({ name : jsonData.login })
     }
 
-    increaseCount = () => {
-      this.setState( { count1 : this.state.count1 + 1 } )
-    }
-
-    decreaseCount = () => {
-      this.setState( { count1 : this.state.count1 - 1 } )
-    }
-
-    increaseCount1 = () => {
-      this.setState( { count2 : this.state.count2 + 1 } )
-    }
-
-    decreaseCount1 = () => {
-      this.setState( { count2 : this.state.count2 - 1 } )
-    }
-
+   
   render() {
 
-    console.log('hey from renderrr')
-    const {count1,count2} = this.state ;
+    const {name} = this.state ;
 
     return (
       <div className="user-card">
 
-        <h4>First count value = {count1} </h4>
-        <button onClick={this.increaseCount}>Increase</button>
-        <button onClick={this.decreaseCount}>Decrease</button>
-
-        <h4>Second count value = {count2} </h4>
-        <button onClick={this.increaseCount1}>Increase</button>
-        <button onClick={this.decreaseCount1}>Decrease</button>
+       <h3>{name}</h3>
         
       </div>
     );
