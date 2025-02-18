@@ -1,13 +1,19 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import RestaurentCard from './RestCard';
 import Shimmer from './Shimmer';
+import TopRestCard from './TopRestCard';
 
-import { TopRestList } from '../utils/mockData';
-import { Link } from 'react-router-dom';
+// custom hooks
+import useGetOnlineStatus from '../utils/useGetOnlineStatus';
+
 
 // body component
 const Body = () => {
+
+  const [ TopRestList , setTopRestList ] = useState([]) ;
+
   const [restList, setRestList] = useState([]);
 
   const [filterdRestList, setfilterdRestList] = useState([]);
@@ -33,10 +39,21 @@ const Body = () => {
       jsonData.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
         ?.restaurants
     );
+    setTopRestList(
+      jsonData.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+        ?.restaurants
+    )
   };
 
+  const onlineStatus = useGetOnlineStatus() ;
+  if(!onlineStatus){
+    return <div className='offline-msg-container'>
+      <h2 >You are currently offline..</h2>
+    </div>
+  }
+
   // showing restList is loading => CONDETIONAL RENDERING
-  if (restList.length === 0) {
+  if (restList.length === 0 && TopRestList.length === 0) {
     return <Shimmer />;
   }
 
@@ -69,11 +86,16 @@ const Body = () => {
       </div>
 
       <h2>Top restaurant chains in Kannur</h2>
-      <div className="top-rest-container">
-        {TopRestList.map((rest) => (
-          <RestaurentCard key={rest.info.id} restData={rest} />
-        ))}
+      <div className='top-rest-outer-container' >
+        <div className="top-rest-container">
+          <div className='top-rest-row'>
+            {TopRestList.map((rest) => (
+              <TopRestCard key={rest.info.id} restData={rest} />
+            ))}
+          </div>
+        </div>
       </div>
+      
 
       <h2>Restaurants with online food delivery in Kannur</h2>
       <div className="filter-container">

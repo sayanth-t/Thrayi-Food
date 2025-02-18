@@ -3,9 +3,14 @@ import { LOGO_URL } from '../utils/constants';
 
 import { Link } from 'react-router-dom';
 
+// import custom hooks
+import useGetOnlineStatus from '../utils/useGetOnlineStatus';
+
 // header component
 const Header = () => {
   const [btnName, setBtnName] = useState('login');
+
+  const onlineStatus = useGetOnlineStatus() ;
 
   return (
     <div className="header">
@@ -29,6 +34,9 @@ const Header = () => {
           </li>
           <li>
             <Link to={'/profile'}>Profile</Link>
+          </li>
+          <li>
+            Online Status { onlineStatus ? '🟢' : '🔴'}
           </li>
           <button
             className="login-btn"

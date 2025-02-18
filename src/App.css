@@ -8,7 +8,7 @@ h6 {
   padding: 0;
 }
 
-a{
+a {
   text-decoration: none;
   color: inherit;
 }
@@ -69,26 +69,37 @@ a{
   border-radius: 5px;
 }
 
+.top-rest-outer-container {
+  background: rgb(255, 255, 255);
+  padding: 16px;
+  overflow: hidden;
+}
+
 .top-rest-container {
   padding-top: 20px;
   padding-bottom: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 20px;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-y: hidden; /* Hide vertical scroll */
+  white-space: nowrap; /* Prevent wrapping of child elements */
+}
 
-  overflow: auto;
+.top-rest-row {
+  display: flex;
+  flex-wrap: nowrap; /* Prevent wrapping of restaurant cards */
+  gap: 20px; /* Adjust the gap between cards */
 }
 
 .rest-card {
   width: 250px;
   padding: 20px;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   transition: 0.3s ease-in-out;
+  flex-shrink: 0; /* Prevent cards from shrinking */
+  overflow: hidden; /* Ensure content doesn't overflow the card */
 }
+
 
 .rest-card:hover {
   cursor: pointer;
@@ -110,11 +121,21 @@ a{
 }
 
 .rest-info {
-  /* text-align: center; */
   display: flex;
   flex-direction: column;
   row-gap: 7px;
+  overflow: hidden; /* Prevent text overflow */
 }
+
+.rest-info h3,
+.rest-info p {
+  margin: 0; /* Remove default margins */
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+}
+
+
 
 .body {
   padding: 100px 140px;
@@ -204,7 +225,7 @@ a{
   padding: 150px 150px;
 }
 
-.user-card{
+.user-card {
   padding: 20px 0px;
 }
 
@@ -259,7 +280,7 @@ a{
 
 .recommended {
   display: block;
-  padding: 15px 0px ;
+  padding: 15px 0px;
 }
 
 .recommended-container {
@@ -304,11 +325,26 @@ a{
   margin: 20px 0;
 }
 
-.rest-menu-link{
+.rest-menu-link {
   text-decoration: none;
   color: inherit;
 }
 
-.rest-menu-link:hover{
+.rest-menu-link:hover {
   color: inherit;
+}
+
+.user-card {
+  display: flex;
+  flex-direction: row;
+  column-gap: 30px;
+  align-items: center;
+}
+
+.userAvatar {
+  width: 50px;
+}
+
+.offline-msg-container{
+  padding: 100px;
 }

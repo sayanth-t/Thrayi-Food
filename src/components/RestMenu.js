@@ -1,40 +1,23 @@
-import { useEffect, useState } from 'react';
+
 import Shimmer from './Shimmer';
 import { useParams } from 'react-router-dom';
 
 import RecommentCard from './Recommend';
-import { MENU_API } from '../utils/constants';
+import useGetRestMenu from '../utils/useGetRestMenu';
 
 const RestMenu = () => {
-  const [menuData, setMenuData] = useState(null);
   
-
   const {restId} = useParams() ;
 
-  const findMenu = async () => {
-    const data = await fetch(
-      MENU_API + restId
-    )
-    const menuData = await data.json();
-
-    setMenuData(menuData);
-  };
-
+  // calling custom hook to fetch data
+  const menuData = useGetRestMenu(restId) ;
   
-
-  useEffect(() => {
-    findMenu();
-  }, []);
-
   if ( menuData === null ) {
     return <Shimmer />;
   } 
 
   const { name, avgRating, costForTwoMessage, city } =
     menuData?.data?.cards[2]?.card?.card.info;
-
-  console.log('recommended : ', menuData?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card
-    ?.card?.itemCards) ;
 
   const recommended = Object.values(
     menuData?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card

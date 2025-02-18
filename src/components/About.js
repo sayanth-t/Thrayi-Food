@@ -1,4 +1,5 @@
 
+
 import UserClass from "./UserClass";
 
 const About = () => {
@@ -7,6 +8,7 @@ const About = () => {
         <h2>About</h2> 
 
         <UserClass />
+       
       
         <p>
           Contrary to popular belief, Lorem Ipsum is not simply random text. It
